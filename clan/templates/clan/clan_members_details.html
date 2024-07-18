@@ -14,32 +14,55 @@
             margin-top: 30px;
             margin-bottom: 30px;
         }
+
+        table {
+            text-align: center;
+        }
+
+        .attacked {
+            font-weight: 400;
+            color: #009000 !important;
+        }
+
+        .not-attacked {
+            font-weight: 400;
+            color: #ff0000 !important;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="my-4 text-center">Clan Members</h1>
         <div class="button-container">
-            <button class="btn btn-primary">Refresh Stars</button>
+            <a href="{% url 'refresh_stars' %}" class="btn btn-primary">Refresh Stars</a>
         </div>
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th></th>
+                    <th>#</th>
                     <th scope="col">Member Tag</th>
                     <th scope="col">Member Name</th>
                     <th scope="col">Trophies</th>
                     <th scope="col">Tracked Stars</th>
+                    <th scope="col">Attacked in Recent War?</th>
+                    <th scope="col">Current War Stars</th>
                 </tr>
             </thead>
             <tbody>
                 {% for member in members %}
                 <tr>
-                    <td>#{{ forloop.counter }}</td>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ member.member_tag }}</td>
                     <td>{{ member.member_name }}</td>
                     <td>{{ member.trophies }}</td>
                     <td>{{ member.tracked_stars }}</td>
+                    {% if member.attacked_in_current_war %}
+                        <td class="attacked">Yes</td>
+                    {% else %}
+                        <td class="not-attacked">No</td>
+                    {% endif %}
+                    <td>{{ member.stars_in_current_war }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
