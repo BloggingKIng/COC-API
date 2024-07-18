@@ -42,7 +42,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4 text-center">Clan Members</h1>
+        <h1 class="my-4 text-center">War Overview</h1>
+        <p class="text-center">War Status: 
+            <strong>
+                {{status}}
+            </strong>
+        </p>
         <div class="button-container">
             <a href="{% url 'refresh_stars' %}" class="btn btn-primary">Refresh Data</a>
         </div>
@@ -77,16 +82,16 @@
                     {% else %}
                         <td class="not-attacked">No</td>
                     {% endif %}
-                    <td>{{ member.stars_in_current_war }}</td>
+                    <td>{{ member.stars_in_current_war }} ({{ member.attacks_used }})</td>
                 </tr>
                 {% endfor %}
             </tbody>
             <tfoot class="tfooter">
                 <tr>
                     <td></td>
-                   <td>Total Stars: {{ total_stars }}</td>
-                   <td>Total Attacks: {{ total_attacks }}</td>
-                   <td>Attacking Members: {{ attacking_members }}</td>
+                    <td></td>
+                    <td>Attacking Members: {{ attacking_members }}</td>
+                    <td>Total Stars: {{ total_stars }}</td>
                    <td></td>
                 </tr>
             </tfoot>

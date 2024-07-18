@@ -10,6 +10,8 @@ class ClanMembers(models.Model):
     attacked_in_current_war = models.BooleanField(default=False)
     stars_in_current_war = models.IntegerField(default=0)
     participating_in_current_war = models.BooleanField(default=False)
+    attacks_used = models.IntegerField(default=0)
+    total_war_attacks = models.IntegerField(default=0)
 
 class WarAttacks(models.Model):
     attacker_tag = models.CharField(max_length=50)
