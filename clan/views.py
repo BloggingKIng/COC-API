@@ -6,7 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 # Create your views here.
 
-api_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY2OTllODMzLWVhMGQtNDkzMi04MDBjLTEwYjhkYTliOTEyOSIsImlhdCI6MTcyMTM4MTU2Niwic3ViIjoiZGV2ZWxvcGVyLzM0NjI5YTA5LTE0MjktOTIxYy1jMjIxLWFhMDQ2YzZkM2Q3ZiIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjUyLjIyNC45My4xODIiXSwidHlwZSI6ImNsaWVudCJ9XX0.vDem6PkDfgGlJtnknF0HHrJ0Jh45wvPtrgz3ZTTNPWUPHdAe8SZeWP7PisxpcLeBfkZebYbe00pVorftIomCkw"
+api_key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjJlMWU0YmUwLWRjZDgtNGUyZS1iY2E2LTc3OGY5MWZlZGIxNiIsImlhdCI6MTcyMTQ3MDcxMCwic3ViIjoiZGV2ZWxvcGVyLzM0NjI5YTA5LTE0MjktOTIxYy1jMjIxLWFhMDQ2YzZkM2Q3ZiIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE1NC4xOTIuMTMzLjU3Il0sInR5cGUiOiJjbGllbnQifV19.ELcmdWeApAlJSo8l6h0djyy5NuD-3O-9cMJKGFZ8iXGP2_c8yTm5IqUIvpv1e0Z1cf9PKrsZq4p450LOuJDB1w"
 clan_tag = "2G8YV0J02"
 
 status = "Loading ...."
@@ -23,7 +23,7 @@ def refresher():
         tag = member['tag']
         member_exist  = ClanMembers.objects.filter(member_tag=tag).exists()
         if not member_exist:
-            new_member = ClanMembers(member_tag=member['tag'], member_name=member['name'], trophies=member['trophies'], tracked_stars=0)
+            new_member = ClanMembers.objects.create(member_tag=member['tag'], member_name=member['name'], trophies=member['trophies'], tracked_stars=0)
             new_member.save()
         else:
             m = ClanMembers.objects.filter(member_tag=tag).first()
@@ -61,18 +61,21 @@ def refresher():
                     if attack_exist:
                         pass
                     else:
-                        new_attack = WarAttacks(attacker_tag=attacker_tag, defender_tag=defender_tag, stars=stars)
+                        new_attack = WarAttacks.objects.create(attacker_tag=attacker_tag, defender_tag=defender_tag, stars=stars)
                         new_attack.save()
                         m.tracked_stars += stars
                         m.total_war_attacks += 1
+                        m.save()
                         print(f"{attacker_tag} -> {defender_tag} : {stars}")
                     stars_ += stars
+                m = ClanMembers.objects.filter(member_tag=tag).first()
                 m.stars_in_current_war = stars_
                 m.attacked_in_current_war = True
                 m.attacks_used = len(attacks)
                 m.participating_in_current_war = True
                 m.save()
             except KeyError:
+                m = ClanMembers.objects.filter(member_tag=tag).first()
                 m.attacked_in_current_war = False
                 m.stars_in_current_war = 0
                 m.attacks_used = 0

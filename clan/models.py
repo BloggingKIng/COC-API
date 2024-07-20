@@ -17,3 +17,4 @@ class WarAttacks(models.Model):
     attacker_tag = models.CharField(max_length=50)
     defender_tag = models.CharField(max_length=50)
     stars = models.IntegerField()
+                 
