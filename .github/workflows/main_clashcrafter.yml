@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - clashcrafters
+name: Build and deploy Python app to Azure Web App - clashcrafter
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Create and start virtual environment
         run: |
@@ -65,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_32A694048A70446EA8D7FA20A88425BB }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DA5263BA12014BC7A1D76EEFD4DCFA88 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B27A030C15284842A8130F81F7F59B47 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2E80254E03114E64B33045C981CFCDFC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E1D986E5FFF74B608647CB6AF988D467 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_70B4132EC3214392A9C0074011E0695F }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'clashcrafters'
+          app-name: 'clashcrafter'
           slot-name: 'Production'
           
